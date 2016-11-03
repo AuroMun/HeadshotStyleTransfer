@@ -1,4 +1,4 @@
-function [final_pyramid] = robusttransfer(pyramid1, pyramid2, gain)
+function [final_pyramid] = robusttransfer(pyramid1, pyramid2, gain, levels)
     for k = 1:levels-1
         final_pyramid{k} = pyramid1{k} .* gain{k};
     end
