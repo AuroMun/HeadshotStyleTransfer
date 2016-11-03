@@ -1,7 +1,7 @@
-levels = 10;
+levels = 6;
 
-img_orig = imread('face1.jpg');
-img_style = imread('face2.jpg');
+img_orig = imread('face1.png');
+img_style = imread('face2.png');
 img_orig = imresize(img_orig, [300 NaN]);
 img_style = imresize(img_style, [size(img_orig,1) size(img_orig,2)]);
 img_orig = double(img_orig) / 255.0;
