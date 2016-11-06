@@ -1,0 +1,21 @@
+
+------
+Copyright Claim: we DO NOT own the copyright of any images in this package. 
+This code is only for research purpose
+-----
+
+Two input sets: flickr2/ and mit2/. Play with run_flickr.m and run_mit.m in the code/.
+Three styles: kelco/ (Kelly Castro), martin/(Martin Schoeller) and platon/ (Platon)
+Each folder includes pre-computed landmark, mask, and background.
+eyes/ contains extracted eye highlight reflection.
+Ignore the rest folder for now.
+
+TODO: 
+- Add the explanation on landmarks
+- Explanation on African dataset.
+- Formal copyright disclaimer
+
+
+
+All the input are cropped to 1320x1000
+Eye width is resized to 300 pixels, and rotated to horizontal
