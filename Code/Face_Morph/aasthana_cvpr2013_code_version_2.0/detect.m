@@ -1,6 +1,6 @@
 %For one picture%
 %data.points has 66 sets of points%
-function data = detect(image)
+function data = detect(image, vis)
 
 addpath(genpath('.'));
 im = imread(image);
@@ -11,4 +11,4 @@ data(1).pose = [];
 
 clm_model = 'model/DRMF_Model.mat';
 load(clm_model);    
-data = DRMF(clm_model,data,1,0);    
+data = DRMF(clm_model,data,1,vis);    
