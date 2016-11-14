@@ -5,7 +5,7 @@ function data = detect(image, vis)
 addpath(genpath('.'));
 im = imread(image);
 data(1).name = image;
-data(1).img = im2double(im)
+data(1).img = imresize(im2double(im), [300 230]);
 data(1).points = [];
 data(1).pose = [];
 
