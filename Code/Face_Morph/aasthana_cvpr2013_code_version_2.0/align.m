@@ -1,11 +1,15 @@
-p1 = detect('face1.png', 0);
-p2 = detect('face2.png', 0);
+p1 = detect('face1.png', 0); % Content image
+p2 = detect('face3.png', 0); % Style image
 
 img1 = imresize(imread('face1.png'), [300 230]);
-img2 = imresize(imread('face2.png'), [300 230]);
+img2 = imresize(imread('face3.png'), [300 230]);
 
-new_points1 = zeros(66+13, 2);
-new_points2 = zeros(66+13, 2);
+figure, imshow(img1);
+figure, imshow(img2);
+
+border_points = 3;
+new_points1 = zeros(66+13+(border_points+1)*4, 2);
+new_points2 = zeros(66+13+(border_points+1)*4, 2);
 for i=1:66
     new_points1(i,:) = p1.points(i,:);
     new_points2(i,:) = p2.points(i,:);
@@ -20,32 +24,38 @@ for i=1:13
     new_points2(66+i,2) = new_points2(66+i,2) / exp((200 - new_points2(66+i,2))/300);
     new_points2(66+i,2) = new_points2(66+i,2) + 25;
 end
+for i=1:border_points+1
+    new_points1(66+13+i,1) = 0; new_points1(66+13+i,2) = (i-1)*0/border_points + (border_points-i+1)*300/border_points;
+    new_points2(66+13+i,1) = 0; new_points2(66+13+i,2) = (i-1)*0/border_points + (border_points-i+1)*300/border_points;
+    new_points1(66+13+(border_points+1)+i,1) = 230; new_points1(66+13+(border_points+1)*1+i,2) = (i-1)*0/border_points + (border_points-i+1)*300/border_points;
+    new_points2(66+13+(border_points+1)+i,1) = 230; new_points2(66+13+(border_points+1)*1+i,2) = (i-1)*0/border_points + (border_points-i+1)*300/border_points;
+    new_points1(66+13+(border_points+1)*2+i,1) = (i-1)*0/border_points + (border_points-i+1)*230/border_points; new_points1(66+13+(border_points+1)*2+i,2) = 0;
+    new_points2(66+13+(border_points+1)*2+i,1) = (i-1)*0/border_points + (border_points-i+1)*230/border_points; new_points2(66+13+(border_points+1)*2+i,2) = 0;
+    new_points1(66+13+(border_points+1)*3+i,1) = (i-1)*0/border_points + (border_points-i+1)*230/border_points; new_points1(66+13+(border_points+1)*3+i,2) = 300;
+    new_points2(66+13+(border_points+1)*3+i,1) = (i-1)*0/border_points + (border_points-i+1)*230/border_points; new_points2(66+13+(border_points+1)*3+i,2) = 300;
+end
 p1.points = new_points1;
 p2.points = new_points2;
-figure, imshow(img2);
-axis image;
-hold on;
-plot(new_points2(:,1),new_points2(:,2),'r.')
-%Delaunay points of mean face points
-dis = (p1.points+p2.points)/2;
+
+%Delaunay points
+% We need to warp style image to the content image
+dis = p1.points;
 x = dis(:, 1); y = dis(:, 2);
 tri = delaunay(x,y);
 
-%https://github.com/GabriellaQiong/Face-Morphing/blob/master/morph.m% 
-morphed_im = morph(p1.img*255, p2.img*255, p1.points, p2.points, tri, 1,0 , 0);
+%https://github.com/GabriellaQiong/Face-Morphing/blob/master/morph.m%
+% Warps given 2 images to the triangulation specified considering
+% weightages as the second last parameter. Here since its 0, we would warp
+% the style image (p2) to the specified triangulation of the content image
+% (p1) and then return that as the final morphed style image
+morphed_im = morph(uint8(p2.img*255), uint8(p1.img*255), p2.points, p1.points, tri, 1, 0, 0);
 
-%Show image%
-%figure, imshowpair(p2.img, morphed_im, 'montage');
 morphed_im = im2double(morphed_im);
-orig = p2.img;
 
-for i=1:size(orig,1)
-    for j=1:size(orig,2)
-        if ~(morphed_im(i,j,1) == 0 && morphed_im(i,j,2) == 0 && morphed_im(i,j,3) == 0) 
-            orig(i,j,:) = morphed_im(i,j,:);
-        end
-    end
-end
-
-figure, imshow(orig);
+new_style_img = morphed_im;
+figure, imshow(new_style_img);
+figure, imshow(new_style_img);
+axis image;
+hold on;
+plot(new_points1(:,1),new_points1(:,2),'r.')
 
