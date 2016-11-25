@@ -1,8 +1,8 @@
 p1 = detect('face1.png', 0); % Content image
-p2 = detect('face3.png', 0); % Style image
+p2 = detect('face2.png', 0); % Style image
 
 img1 = imresize(imread('face1.png'), [300 230]);
-img2 = imresize(imread('face3.png'), [300 230]);
+img2 = imresize(imread('face2.png'), [300 230]);
 
 figure, imshow(img1);
 figure, imshow(img2);
@@ -58,4 +58,6 @@ figure, imshow(new_style_img);
 axis image;
 hold on;
 plot(new_points1(:,1),new_points1(:,2),'r.')
+
+imwrite(new_style_img, 'final.png');
 
