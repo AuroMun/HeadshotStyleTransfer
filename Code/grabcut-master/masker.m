@@ -20,7 +20,7 @@ function [masked] = masker(im, gc)
             end
         end
     end
-    masked = im.*masked;
+    %masked = im.*masked;
     %imshow(im.*masked);
 end
     
