@@ -1,8 +1,10 @@
 %addpath('.\bin_graphcuts');
 %im = imread('face1.png');
 %im = imresize(im, [420 NaN]);
-function [masked] = masker(img)
-    im_out = grabcut(im, 50);
+function [masked] = masker(im, gc)
+    if gc==1
+        im_out = grabcut(im, 50);
+    end
     [x, y,z] = size(im_out);
     masked = im_out;
     for i=1:x
@@ -18,6 +20,7 @@ function [masked] = masker(img)
             end
         end
     end
+    masked = im.*masked;
     %imshow(im.*masked);
 end
     

@@ -26,9 +26,9 @@ no_nodes = im_h*im_w;
 imshow(im_in);
 im_h, im_w
 %rect = getrect;
-rect = [7, 8, im_w-15, im_h-15];
+rect = [7, 8, im_w-10, im_h-10];
 rect = int32(rect);
-rect
+
 % Set labels
 alpha_2d = zeros(im_h, im_w); % 1 for foreground, 0 for background
 xmin = max(rect(1), 1);

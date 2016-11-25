@@ -1,10 +1,11 @@
 levels = 16;
-
+addpath('.\grabcut-master');
+addpath('.\grabcut-master\bin_graphcuts');
 img_orig = imread('Inputs/face1.png');
 img_style = imread('Inputs/final2.png');
 img_orig = imresize(img_orig, [420 NaN]);
 
-img_orig = img_orig.*mask;
+img_orig = masker(img_orig, 1);
 img_style = imresize(img_style, [size(img_orig,1) size(img_orig,2)]);
 img_orig = double(img_orig) / 255.0;
 img_style = double(img_style) / 255.0;
