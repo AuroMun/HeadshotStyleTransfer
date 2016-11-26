@@ -1,16 +1,23 @@
 levels = 18;
+compute_masks = 0;
 addpath('./grabcut-master');
 addpath('./grabcut-master/bin_graphcuts');
-img_orig = imread('Inputs/face16.png');
-img_style = imread('Inputs/final16_19.png');
+img_orig = imread('Inputs/face28.png');
+img_style = imread('Inputs/final28_30.png');
 img_orig = imresize(img_orig, [300 230]);
 img_style = imresize(img_style, [300 230]);
 
-figure, imshow(imresize(imread('Inputs/face19.png'), [300 230]));
+figure, imshow(imresize(imread('Inputs/face30.png'), [300 230]));
 figure, imshow(img_orig);
 figure, imshow(img_style);
+% Add a small noise so that patches of same color don't cause issues in
+% grab cut (Same color patch grab cut cannot do anything)
+img_style = img_style + uint8(rand(size(img_style))*3);
+img_style = min(img_style, 255);
 
-mask3 = masker(img_style, 1);
+if compute_masks == 1
+    mask3 = masker(img_style, 1);
+end
 maskx = rgb2gray(mask3);
 maskx = imclose(maskx, strel('disk', 3));
 maskx = imclose(maskx, strel('disk', 3));
@@ -29,9 +36,11 @@ end
 % Darken it a bit since we have performed many max operations
 background_img = background_img/1.2;
 
-figure, imshow(uint8(background_img*255.0));
+%figure, imshow(uint8(background_img*255.0));
 
-mask2 = masker(img_orig, 1);
+if compute_masks == 1
+    mask2 = masker(img_orig, 1);
+end
 mask = rgb2gray(mask2);
 mask = imclose(mask, strel('disk', 3));
 mask = imopen(mask, strel('disk', 3));

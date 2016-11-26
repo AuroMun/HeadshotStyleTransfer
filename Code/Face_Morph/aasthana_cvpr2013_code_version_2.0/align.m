@@ -1,8 +1,8 @@
 p1 = detect('face28.png', 0); % Content image
-p2 = detect('face17.png', 0); % Style image
+p2 = detect('face33.png', 0); % Style image
 
 img1 = imresize(imread('face28.png'), [300 230]);
-img2 = imresize(imread('face17.png'), [300 230]);
+img2 = imresize(imread('face33.png'), [300 230]);
 
 figure, imshow(img1);
 figure, imshow(img2);

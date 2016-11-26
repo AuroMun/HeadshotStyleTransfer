@@ -88,7 +88,7 @@ while ~isConverged && iter<2
     for idx = 1:size(im_out, 2)
         im_out(:, idx, :) = im_out_1d((idx-1)*im_h+1:idx*im_h, :);
     end
-    imshow(im_out);
+    %imshow(im_out);
     drawnow;
     
 end

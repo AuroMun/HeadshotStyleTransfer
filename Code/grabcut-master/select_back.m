@@ -23,8 +23,8 @@ function [im_1d, alpha, im_sub] = select_back(im_in)
 no_nodes = im_h*im_w;
 
 % Select rectangle
-imshow(im_in);
-im_h, im_w
+%imshow(im_in);
+%im_h, im_w
 %rect = getrect;
 rect = [7, 8, im_w-10, im_h];
 rect = int32(rect);
