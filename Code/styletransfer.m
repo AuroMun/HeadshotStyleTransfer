@@ -7,6 +7,16 @@ img_orig = imresize(img_orig, [420 NaN]);
 
 %mask = masker(img_orig, 1);
 img_orig = img_orig.*mask;
+[x y z] = size(img_orig);
+for i =1:x
+    for j=1:y
+        if(mask(i,j)==0)
+            img_orig(i,j,1) = 255;
+            img_orig(i,j,2) = 255;
+            img_orig(i,j,3) = 255;
+        end
+    end
+end
 img_style = imresize(img_style, [size(img_orig,1) size(img_orig,2)]);
 img_orig = double(img_orig) / 255.0;
 img_style = double(img_style) / 255.0;
