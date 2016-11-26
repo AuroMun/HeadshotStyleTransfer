@@ -1,14 +1,35 @@
-levels = 19;
+levels = 18;
 addpath('./grabcut-master');
 addpath('./grabcut-master/bin_graphcuts');
-img_orig = imread('Inputs/face28.png');
-img_style = imread('Inputs/final28_30.png');
+img_orig = imread('Inputs/face16.png');
+img_style = imread('Inputs/final16_19.png');
 img_orig = imresize(img_orig, [300 230]);
 img_style = imresize(img_style, [300 230]);
 
-figure, imshow(imresize(imread('Inputs/face30.png'), [300 230]));
+figure, imshow(imresize(imread('Inputs/face19.png'), [300 230]));
 figure, imshow(img_orig);
 figure, imshow(img_style);
+
+%mask3 = masker(img_style, 1);
+maskx = rgb2gray(mask3);
+maskx = imclose(maskx, strel('disk', 3));
+maskx = imclose(maskx, strel('disk', 3));
+maskx = double(maskx);
+maskx = imfilter(maskx, fspecial('gaussian', 10, 5));
+
+background_img(:,:,1) = (1-maskx).*double(img_style(:,:,1))/255.0;
+background_img(:,:,2) = (1-maskx).*double(img_style(:,:,2))/255.0;
+background_img(:,:,3) = (1-maskx).*double(img_style(:,:,3))/255.0;
+for i=1:8
+    background_img(:,:,1) = ordfilt2(imfilter(background_img(:,:,1), fspecial('gaussian', 10, 10)), 25*25, true(25));
+    background_img(:,:,2) = ordfilt2(imfilter(background_img(:,:,2), fspecial('gaussian', 10, 10)), 25*25, true(25));
+    background_img(:,:,3) = ordfilt2(imfilter(background_img(:,:,3), fspecial('gaussian', 10, 10)), 25*25, true(25));
+end
+
+% Darken it a bit since we have performed many max operations
+background_img = background_img/1.1;
+
+figure, imshow(uint8(background_img*255.0));
 
 %mask2 = masker(img_orig, 1);
 mask = rgb2gray(mask2);
@@ -57,9 +78,10 @@ final_img = LAB2RGB(final_img);
 
 img_style = LAB2RGB(img_style);
 
+background_img = double(background_img);
 orig_mask = imfilter(orig_mask, fspecial('gaussian', 5, 2));
-final_img(:,:,1) = final_img(:,:,1).*orig_mask;
-final_img(:,:,2) = final_img(:,:,2).*orig_mask;
-final_img(:,:,3) = final_img(:,:,3).*orig_mask;
+final_img(:,:,1) = final_img(:,:,1).*orig_mask + background_img(:,:,1).*(1-orig_mask);
+final_img(:,:,2) = final_img(:,:,2).*orig_mask + background_img(:,:,2).*(1-orig_mask);
+final_img(:,:,3) = final_img(:,:,3).*orig_mask + background_img(:,:,3).*(1-orig_mask);
 
 figure, imshow(uint8(final_img * 255.0));
