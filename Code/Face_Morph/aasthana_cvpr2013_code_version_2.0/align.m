@@ -1,8 +1,8 @@
-p1 = detect('face28.png', 0); % Content image
-p2 = detect('face33.png', 0); % Style image
+p1 = detect('../../Inputs/face28.png', 0); % Content image
+p2 = detect('../../Inputs/face1.png', 0); % Style image
 
-img1 = imresize(imread('face28.png'), [300 230]);
-img2 = imresize(imread('face33.png'), [300 230]);
+img1 = imresize(imread('../../Inputs/face28.png'), [300 230]);
+img2 = imresize(imread('../../Inputs/face1.png'), [300 230]);
 
 figure, imshow(img1);
 figure, imshow(img2);
@@ -59,5 +59,5 @@ axis image;
 hold on;
 plot(new_points1(:,1),new_points1(:,2),'r.')
 
-imwrite(new_style_img, 'final.png');
+imwrite(new_style_img, '../../Inputs/final.png');
 

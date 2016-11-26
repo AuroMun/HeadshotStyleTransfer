@@ -1,13 +1,13 @@
 levels = 18;
-compute_masks = 0;
+compute_masks = 1;
 addpath('./grabcut-master');
 addpath('./grabcut-master/bin_graphcuts');
 img_orig = imread('Inputs/face28.png');
-img_style = imread('Inputs/final28_30.png');
+img_style = imread('Inputs/final28_1.png');
 img_orig = imresize(img_orig, [300 230]);
 img_style = imresize(img_style, [300 230]);
 
-figure, imshow(imresize(imread('Inputs/face30.png'), [300 230]));
+figure, imshow(imresize(imread('Inputs/face1.png'), [300 230]));
 figure, imshow(img_orig);
 figure, imshow(img_style);
 % Add a small noise so that patches of same color don't cause issues in
