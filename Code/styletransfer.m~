@@ -1,4 +1,4 @@
-levels = 19;
+levels = 20;
 addpath('./grabcut-master');
 addpath('./grabcut-master/bin_graphcuts');
 img_orig = imread('Inputs/face28.png');
