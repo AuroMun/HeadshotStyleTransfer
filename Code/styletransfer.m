@@ -48,6 +48,7 @@ img_style = double(img_style);
 img_orig(:,:,1) = img_orig(:,:,1).*mask;
 img_orig(:,:,2) = img_orig(:,:,2).*mask;
 img_orig(:,:,3) = img_orig(:,:,3).*mask;
+
 img_style = imresize(img_style, [size(img_orig,1) size(img_orig,2)]);
 img_orig = double(img_orig) / 255.0;
 img_style = double(img_style) / 255.0;
