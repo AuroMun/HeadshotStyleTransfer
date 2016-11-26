@@ -10,7 +10,7 @@ figure, imshow(imresize(imread('Inputs/face19.png'), [300 230]));
 figure, imshow(img_orig);
 figure, imshow(img_style);
 
-%mask3 = masker(img_style, 1);
+mask3 = masker(img_style, 1);
 maskx = rgb2gray(mask3);
 maskx = imclose(maskx, strel('disk', 3));
 maskx = imclose(maskx, strel('disk', 3));
@@ -21,17 +21,17 @@ background_img(:,:,1) = (1-maskx).*double(img_style(:,:,1))/255.0;
 background_img(:,:,2) = (1-maskx).*double(img_style(:,:,2))/255.0;
 background_img(:,:,3) = (1-maskx).*double(img_style(:,:,3))/255.0;
 for i=1:8
-    background_img(:,:,1) = ordfilt2(imfilter(background_img(:,:,1), fspecial('gaussian', 10, 10)), 25*25, true(25));
-    background_img(:,:,2) = ordfilt2(imfilter(background_img(:,:,2), fspecial('gaussian', 10, 10)), 25*25, true(25));
-    background_img(:,:,3) = ordfilt2(imfilter(background_img(:,:,3), fspecial('gaussian', 10, 10)), 25*25, true(25));
+    background_img(:,:,1) = imgaussfilt(ordfilt2(background_img(:,:,1), 25*25, true(25)), 10, 'FilterSize', 11, 'Padding', 'replicate');
+    background_img(:,:,2) = imgaussfilt(ordfilt2(background_img(:,:,2), 25*25, true(25)), 10, 'FilterSize', 11, 'Padding', 'replicate');
+    background_img(:,:,3) = imgaussfilt(ordfilt2(background_img(:,:,3), 25*25, true(25)), 10, 'FilterSize', 11, 'Padding', 'replicate');
 end
 
 % Darken it a bit since we have performed many max operations
-background_img = background_img/1.1;
+background_img = background_img/1.2;
 
 figure, imshow(uint8(background_img*255.0));
 
-%mask2 = masker(img_orig, 1);
+mask2 = masker(img_orig, 1);
 mask = rgb2gray(mask2);
 mask = imclose(mask, strel('disk', 3));
 mask = imopen(mask, strel('disk', 3));

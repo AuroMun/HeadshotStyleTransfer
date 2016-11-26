@@ -1,6 +1,6 @@
 function [masked] = masker(im, gc)
     if gc==1
-        im_out = grabcut(im, 50);
+        im_out = grabcut(im, 100);
     end
     [x, y, z] = size(im_out);
     masked = im_out;
