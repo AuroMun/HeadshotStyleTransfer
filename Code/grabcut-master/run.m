@@ -3,7 +3,7 @@
 %im = imresize(im, [420 NaN]);
 function [masked] = masker(img)
     im_out = grabcut(im, 50);
-    [x, y,z] = size(im_out);
+    [x, y, z] = size(im_out);
     masked = im_out;
     for i=1:x
         for j=1:y

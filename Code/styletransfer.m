@@ -1,22 +1,54 @@
-levels = 16;
-addpath('.\grabcut-master');
-addpath('.\grabcut-master\bin_graphcuts');
-img_orig = imread('Inputs/face1.png');
-img_style = imread('Inputs/final2.png');
-img_orig = imresize(img_orig, [420 NaN]);
+levels = 18;
+addpath('./grabcut-master');
+addpath('./grabcut-master/bin_graphcuts');
+img_orig = imread('Inputs/face16.png');
+img_style = imread('Inputs/final16_19.png');
+img_orig = imresize(img_orig, [300 230]);
+img_style = imresize(img_style, [300 230]);
 
-%mask = masker(img_orig, 1);
-img_orig = img_orig.*mask;
-[x y z] = size(img_orig);
-for i =1:x
-    for j=1:y
-        if(mask(i,j)==0)
-            img_orig(i,j,1) = 255;
-            img_orig(i,j,2) = 255;
-            img_orig(i,j,3) = 255;
-        end
-    end
+figure, imshow(imresize(imread('Inputs/face19.png'), [300 230]));
+figure, imshow(img_orig);
+figure, imshow(img_style);
+
+%mask3 = masker(img_style, 1);
+maskx = rgb2gray(mask3);
+maskx = imclose(maskx, strel('disk', 3));
+maskx = imclose(maskx, strel('disk', 3));
+maskx = double(maskx);
+maskx = imfilter(maskx, fspecial('gaussian', 10, 5));
+
+background_img(:,:,1) = (1-maskx).*double(img_style(:,:,1))/255.0;
+background_img(:,:,2) = (1-maskx).*double(img_style(:,:,2))/255.0;
+background_img(:,:,3) = (1-maskx).*double(img_style(:,:,3))/255.0;
+for i=1:8
+    background_img(:,:,1) = ordfilt2(imfilter(background_img(:,:,1), fspecial('gaussian', 10, 10)), 25*25, true(25));
+    background_img(:,:,2) = ordfilt2(imfilter(background_img(:,:,2), fspecial('gaussian', 10, 10)), 25*25, true(25));
+    background_img(:,:,3) = ordfilt2(imfilter(background_img(:,:,3), fspecial('gaussian', 10, 10)), 25*25, true(25));
 end
+
+% Darken it a bit since we have performed many max operations
+background_img = background_img/1.1;
+
+figure, imshow(uint8(background_img*255.0));
+
+%mask2 = masker(img_orig, 1);
+mask = rgb2gray(mask2);
+mask = imclose(mask, strel('disk', 3));
+mask = imopen(mask, strel('disk', 3));
+mask = imerode(mask, strel('disk', 1));
+
+mask = double(mask);
+orig_mask = mask;
+% Blur the mask to avoid sudden changes so that the gains work well
+mask = imfilter(mask, fspecial('gaussian', 10, 5));
+
+img_orig = double(img_orig);
+img_style = double(img_style);
+
+img_orig(:,:,1) = img_orig(:,:,1).*mask;
+img_orig(:,:,2) = img_orig(:,:,2).*mask;
+img_orig(:,:,3) = img_orig(:,:,3).*mask;
+
 img_style = imresize(img_style, [size(img_orig,1) size(img_orig,2)]);
 img_orig = double(img_orig) / 255.0;
 img_style = double(img_style) / 255.0;
@@ -44,5 +76,13 @@ gain = computegain(energy1, energy2, levels);
 final_pyramid = robusttransfer(pyramid1, pyramid2, gain, levels);
 final_img = reconstructimage(final_pyramid, levels);
 final_img = LAB2RGB(final_img);
+
+img_style = LAB2RGB(img_style);
+
+background_img = double(background_img);
+orig_mask = imfilter(orig_mask, fspecial('gaussian', 5, 2));
+final_img(:,:,1) = final_img(:,:,1).*orig_mask + background_img(:,:,1).*(1-orig_mask);
+final_img(:,:,2) = final_img(:,:,2).*orig_mask + background_img(:,:,2).*(1-orig_mask);
+final_img(:,:,3) = final_img(:,:,3).*orig_mask + background_img(:,:,3).*(1-orig_mask);
 
 figure, imshow(uint8(final_img * 255.0));
