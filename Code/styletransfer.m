@@ -3,19 +3,20 @@ compute_masks = 1;
 addpath('./grabcut-master');
 addpath('./grabcut-master/bin_graphcuts');
 img_orig = imread('Inputs/face36.png');
-img_style = imread('Inputs/final36_4.png');
+img_style = imread('Inputs/final36_42.png');
 img_orig = imresize(img_orig, [300 230]);
 img_style = imresize(img_style, [300 230]);
 
-figure, imshow(imresize(imread('Inputs/face4.png'), [300 230]));
-figure, imshow(img_orig);
-figure, imshow(img_style);
 % Add a small noise so that patches of same color don't cause issues in
 % grab cut (Same color patch grab cut cannot do anything)
 img_style = img_style + uint8(rand(size(img_style))*5);
 img_style = min(img_style, 255);
 img_orig = img_orig + uint8(rand(size(img_orig))*5);
 img_orig = min(img_orig, 255);
+
+figure, imshow(imresize(imread('Inputs/face42.png'), [300 230]));
+figure, imshow(img_orig);
+figure, imshow(img_style);
 
 if compute_masks == 1
     mask3 = masker(img_style, 1);
