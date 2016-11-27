@@ -1,9 +1,10 @@
 levels = 18;
-compute_masks = 0;
+compute_masks = 1;
 addpath('./grabcut-master');
 addpath('./grabcut-master/bin_graphcuts');
-img_orig = imread('Inputs/face56.png');
-img_style = imread('Inputs/final56_52.png');
+img_orig = imread('Inputs/face16.png');
+img_style = imread('Inputs/final16_19.png');
+img_style_o = imresize(imread('Inputs/face19.png'), [300 230]);
 img_orig = imresize(img_orig, [300 230]);
 img_orig_backup = img_orig;
 img_orig_old = img_orig;
@@ -108,4 +109,4 @@ gauss_fin_img = imfilter(final_img, fspecial('gaussian', 3, 3));
 final_img = final_img + (final_img-gauss_fin_img)*0.7;
 
 %figure, imshow(final_img);
-montage([img_orig_backup, img_style_backup, final_img]);
+montage([img_orig_backup, img_style_o, final_img]);
