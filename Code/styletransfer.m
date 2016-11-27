@@ -1,13 +1,14 @@
 levels = 18;
-compute_masks = 1;
+compute_masks = 0;
 addpath('./grabcut-master');
 addpath('./grabcut-master/bin_graphcuts');
 img_orig = imread('Inputs/face56.png');
 img_style = imread('Inputs/final56_52.png');
 img_orig = imresize(img_orig, [300 230]);
+img_orig_backup = img_orig;
 img_orig_old = img_orig;
 img_style = imresize(img_style, [300 230]);
-
+img_style_backup = img_style;
 % Add a small noise so that patches of same color don't cause issues in
 % grab cut (Same color patch grab cut cannot do anything)
 img_style = img_style + uint8(rand(size(img_style))*5);
@@ -15,7 +16,7 @@ img_style = min(img_style, 255);
 img_orig = img_orig + uint8(rand(size(img_orig))*5);
 img_orig = min(img_orig, 255);
 
-figure, imshow(imresize(imread('Inputs/face52.png'), [300 230]));
+%figure, imshow(imresize(imread('Inputs/face52.png'), [300 230]));
 figure, imshow(img_orig);
 figure, imshow(img_style);
 
@@ -66,8 +67,8 @@ img_style = imresize(img_style, [size(img_orig,1) size(img_orig,2)]);
 img_orig = double(img_orig) / 255.0;
 img_style = double(img_style) / 255.0;
 
-figure, imshow(uint8(img_orig * 255.0));
-figure, imshow(uint8(img_style * 255.0));
+%figure, imshow(uint8(img_orig * 255.0));
+%figure, imshow(uint8(img_style * 255.0));
 
 img_orig = RGB2LAB(img_orig);
 img_style = RGB2LAB(img_style);
@@ -100,10 +101,11 @@ final_img(:,:,3) = final_img(:,:,3).*orig_mask + background_img(:,:,3).*(1-orig_
 
 final_img = uint8(final_img * 255.0);
 
-figure, imshow(final_img);
+%figure, imshow(final_img);
 
 % High boost filtering
 gauss_fin_img = imfilter(final_img, fspecial('gaussian', 3, 3));
 final_img = final_img + (final_img-gauss_fin_img)*0.7;
 
-figure, imshow(final_img);
+%figure, imshow(final_img);
+montage([img_orig_backup, img_style_backup, final_img]);
