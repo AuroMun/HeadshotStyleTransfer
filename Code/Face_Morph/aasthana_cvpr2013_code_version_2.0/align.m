@@ -1,8 +1,8 @@
-p1 = detect('../../Inputs/face28.png', 0); % Content image
-p2 = detect('../../Inputs/face1.png', 0); % Style image
+p1 = detect('../../Inputs/face36.png', 0); % Content image
+p2 = detect('../../Inputs/face34.png', 0); % Style image
 
-img1 = imresize(imread('../../Inputs/face28.png'), [300 230]);
-img2 = imresize(imread('../../Inputs/face1.png'), [300 230]);
+img1 = imresize(imread('../../Inputs/face36.png'), [300 230]);
+img2 = imresize(imread('../../Inputs/face34.png'), [300 230]);
 
 figure, imshow(img1);
 figure, imshow(img2);
@@ -16,13 +16,13 @@ for i=1:66
 end
 for i=1:13
     new_points1(66+i,1) = p1.points(i+2,1);
-    new_points1(66+i,2) = p1.points(i+2,2)*-1 + 300;
+    new_points1(66+i,2) = (p1.points(i+2,2)-p1.points(1,2))*-1 + p1.points(1,2);
     new_points1(66+i,2) = new_points1(66+i,2) / exp((200 - new_points1(66+i,2))/300);
-    new_points1(66+i,2) = new_points1(66+i,2) + 25;
+    new_points1(66+i,2) = new_points1(66+i,2) + 35;
     new_points2(66+i,1) = p2.points(i+2,1);
-    new_points2(66+i,2) = p2.points(i+2,2)*-1 + 300;
+    new_points2(66+i,2) = (p2.points(i+2,2)-p2.points(1,2))*-1 + p2.points(1,2);
     new_points2(66+i,2) = new_points2(66+i,2) / exp((200 - new_points2(66+i,2))/300);
-    new_points2(66+i,2) = new_points2(66+i,2) + 25;
+    new_points2(66+i,2) = new_points2(66+i,2) + 35;
 end
 for i=1:border_points+1
     new_points1(66+13+i,1) = 0; new_points1(66+13+i,2) = (i-1)*0/border_points + (border_points-i+1)*300/border_points;
