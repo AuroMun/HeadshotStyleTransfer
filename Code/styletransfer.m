@@ -1,18 +1,24 @@
 levels = 18;
-compute_masks = 1;
+compute_masks = 0;
+origFace = 'face56.png';
+styleFace = 'face52.png';
+origPath = fullfile('./Inputs/', origFace);
+stylePath = fullfile('./Inputs/', styleFace);
+addpath('./Face_Morph/aasthana_cvpr2013_code_version_2.0');
 addpath('./grabcut-master');
 addpath('./grabcut-master/bin_graphcuts');
-img_orig = imread('Inputs/face16.png');
-img_style = imread('Inputs/final16_19.png');
-img_style_o = imresize(imread('Inputs/face19.png'), [300 230]);
+img_orig = imread(origPath);
+img_style_backup = imread(stylePath);
+img_style_backup = imresize(img_style_backup, [300 230]);
+img_style = alignFunction(origFace, styleFace);
 img_orig = imresize(img_orig, [300 230]);
 img_orig_backup = img_orig;
 img_orig_old = img_orig;
 img_style = imresize(img_style, [300 230]);
-img_style_backup = img_style;
+
 % Add a small noise so that patches of same color don't cause issues in
 % grab cut (Same color patch grab cut cannot do anything)
-img_style = img_style + uint8(rand(size(img_style))*5);
+img_style = uint8(img_style*255.0) + uint8(rand(size(img_style))*5);
 img_style = min(img_style, 255);
 img_orig = img_orig + uint8(rand(size(img_orig))*5);
 img_orig = min(img_orig, 255);
@@ -109,4 +115,4 @@ gauss_fin_img = imfilter(final_img, fspecial('gaussian', 3, 3));
 final_img = final_img + (final_img-gauss_fin_img)*0.7;
 
 %figure, imshow(final_img);
-montage([img_orig_backup, img_style_o, final_img]);
+montage([img_orig_backup, img_style_backup, final_img]);
