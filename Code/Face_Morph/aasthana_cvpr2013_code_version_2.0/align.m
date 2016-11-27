@@ -1,8 +1,8 @@
-p1 = detect('../../Inputs/face16.png', 0); % Content image
-p2 = detect('../../Inputs/face24.png', 0); % Style image
+p1 = detect('../../Inputs/face56.png', 0); % Content image
+p2 = detect('../../Inputs/face55.png', 0); % Style image
 
-img1 = imresize(imread('../../Inputs/face16.png'), [300 230]);
-img2 = imresize(imread('../../Inputs/face24.png'), [300 230]);
+img1 = imresize(imread('../../Inputs/face56.png'), [300 230]);
+img2 = imresize(imread('../../Inputs/face55.png'), [300 230]);
 
 figure, imshow(img1);
 figure, imshow(img2);

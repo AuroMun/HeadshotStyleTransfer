@@ -26,7 +26,7 @@ no_nodes = im_h*im_w;
 %imshow(im_in);
 %im_h, im_w
 %rect = getrect;
-rect = [7, 8, im_w-10, im_h];
+rect = [1, 1, im_w-5, im_h];
 rect = int32(rect);
 
 % Set labels
