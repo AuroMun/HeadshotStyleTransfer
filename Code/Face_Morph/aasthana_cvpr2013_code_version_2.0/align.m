@@ -4,8 +4,8 @@ p2 = detect('../../Inputs/face55.png', 0); % Style image
 img1 = imresize(imread('../../Inputs/face56.png'), [300 230]);
 img2 = imresize(imread('../../Inputs/face55.png'), [300 230]);
 
-figure, imshow(img1);
-figure, imshow(img2);
+%figure, imshow(img1);
+%figure, imshow(img2);
 
 border_points = 3;
 new_points1 = zeros(66+13+(border_points+1)*4, 2);
@@ -53,8 +53,8 @@ morphed_im = morph(uint8(p2.img*255), uint8(p1.img*255), p2.points, p1.points, t
 morphed_im = im2double(morphed_im);
 
 new_style_img = morphed_im;
-figure, imshow(new_style_img);
-figure, imshow(new_style_img);
+%figure, imshow(new_style_img);
+%figure, imshow(new_style_img);
 axis image;
 hold on;
 plot(new_points1(:,1),new_points1(:,2),'r.')
