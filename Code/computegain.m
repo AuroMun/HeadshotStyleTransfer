@@ -1,5 +1,5 @@
 function [gain] = computegain(energy1, energy2, levels)
-    cur_gauss = 1;
+    cur_gauss = 1.2;
     for k = 1:levels-1
         gain{k} = sqrt(energy2{k} ./ (energy1{k} + 0.00001));
         % Clamp the gains

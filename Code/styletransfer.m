@@ -1,7 +1,7 @@
 levels = 18;
-compute_masks = 1;
-origFace = 'face28.png';
-styleFace = 'face30.png';
+compute_masks = 0;
+origFace = 'face35.png';
+styleFace = 'face2.png';
 origPath = fullfile('./Inputs/', origFace);
 stylePath = fullfile('./Inputs/', styleFace);
 addpath('./Face_Morph/aasthana_cvpr2013_code_version_2.0');
@@ -76,6 +76,8 @@ img_style = double(img_style) / 255.0;
 
 figure, imshow(uint8(img_orig * 255.0));
 figure, imshow(uint8(img_style * 255.0));
+
+montage([img_orig_backup, uint8(img_orig * 255.0)]);
 
 img_orig = RGB2LAB(img_orig);
 img_style = RGB2LAB(img_style);
