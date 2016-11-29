@@ -9,5 +9,9 @@ Headshot portraits are commonly taken in professional settings and a lot of time
 ![Example 3](Code/Outputs/Final\ Results/Result16.png?raw=true "Example 3")
 
 ##### Note
-This is our implementation of "Style Transfer for Headshot Portraits" paper in matlab, we acknowledge the use of the dataset they have provided with their paper.
-"YiChang Shih, Sylvain Paris, Connelly Barnes, William T. Freeman, and Frédo Durand, Style Transfer for Headshot Portraits, appeared in SIGGRAPH 2014"
+This is our implementation of "Style Transfer for Headshot Portraits" paper in matlab, we acknowledge the use of the dataset they have provided with their paper, "YiChang Shih, Sylvain Paris, Connelly Barnes, William T. Freeman, and Frédo Durand, Style Transfer for Headshot Portraits, appeared in SIGGRAPH 2014".
+
+##### References
+* A. Asthana, S. Zafeiriou, S. Cheng and M. Pantic. Robust Discriminative Response Map Fitting with Constrained Local Models. CVPR 2013.
+* GrabCut, Interactive Foreground Extraction using Iterated Graph Cuts By Carsten Rother, Vladimir Kolmogorov and Andrew Blake at Microsoft Research Cambridge, UK SIGGRAPH 2004
+* Face Morphing - https://github.com/GabriellaQiong/Face-Morphing/
